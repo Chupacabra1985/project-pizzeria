@@ -60,7 +60,10 @@
       thisProduct.id = id;
       thisProduct.data = data;
       thisProduct.renderInMenu();
+      thisProduct.getElements();
       thisProduct.initAccordion();
+      thisProduct.initOrderForm();
+      thisProduct.processOrder();
       console.log('new Product: ', thisProduct);
     }
 
@@ -72,11 +75,20 @@
       menuContainer.appendChild(thisProduct.element);
     }
 
+    getElements() {
+      const thisProduct = this;
+
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+    }
+
     initAccordion() {
       const thisProduct = this;
       productList.push(thisProduct);
-      const headers = thisProduct.element.querySelector(select.menuProduct.clickable);
-      headers.addEventListener('click', function () {
+      thisProduct.accordionTrigger.addEventListener('click', function () {
         thisProduct.element.classList.add('active');
         for (let product of productList) {
           if (product !== thisProduct && product.element.classList.contains('active')) {
@@ -84,6 +96,45 @@
           }
         }
       });
+    }
+
+    initOrderForm() {
+      const thisProduct = this;
+      thisProduct.form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+
+      for(let input of thisProduct.formInputs) {
+        input.addEventListener('change', function () {
+          thisProduct.processOrder();
+        });
+      }
+
+      thisProduct.cartButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+    }
+
+    processOrder() {
+      const thisProduct = this;
+      let productPrice = thisProduct.data.price;
+      const formData = utils.serializeFormToObject(thisProduct.form);
+
+      for (const paramId in thisProduct.data.params) {
+        const param = thisProduct.data.params[paramId];
+        for (let optionId in param.options) {
+          const option = param.options[optionId];
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+          if (optionSelected && !option.default) {
+            productPrice += option.price;
+          } else if(!optionSelected && option.default) {
+            productPrice -= option.price;
+          }
+        }
+      }
+      thisProduct.priceElem.innerHTML = productPrice;
     }
   }
 
