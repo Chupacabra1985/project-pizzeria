@@ -1,5 +1,5 @@
-import {select} from '../settings';
-import AmountWidget from './AmountWidget';
+import {select} from '../settings.js';
+import AmountWidget from './AmountWidget.js';
 
 class CartProduct {
   constructor(menuProduct, element) {
@@ -13,7 +13,6 @@ class CartProduct {
     thisCartProduct.getElements(element);
     thisCartProduct.initAmountWidget();
     thisCartProduct.initActions();
-    //console.log('cart product', thisCartProduct);
   }
 
   getElements(element) {
