@@ -62,6 +62,7 @@ export const select = {
     peopleAmount: '.people-amount',
     hoursAmount: '.hours-amount',
     tables: '.floor-plan .table',
+    submit: '.btn-secondary',
   },
   nav: {
     links: '.main-nav a',
