@@ -109,7 +109,6 @@ class Booking {
     thisBooking.hour = utils.hourToNumber(thisBooking.dom.hourPicker.value);
 
     let allAvailable = false;
-    let availableTables = [];
 
     if (typeof thisBooking.booked[thisBooking.date] == 'undefined' ||
         typeof thisBooking.booked[thisBooking.date][thisBooking.hour] == 'undefined') {
@@ -125,28 +124,94 @@ class Booking {
       if (!allAvailable &&
         thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)) {
         table.classList.add(classNames.booking.tableBooked);
-        const tableIndex = availableTables.indexOf(table);
-        if(tableIndex > -1) {
-          availableTables.splice(tableIndex);
-        }
       } else {
         table.classList.remove(classNames.booking.tableBooked);
-        const tableIndex = availableTables.indexOf(table);
-        if(tableIndex < 0) {
-          availableTables.push(table);
-        }
       }
     }
+    thisBooking.addSliderStyle();
+  }
 
-    for (let freeTable of availableTables) {
-      freeTable.addEventListener('click', function () {
-        freeTable.classList.add(classNames.booking.tableBooked);
-        thisBooking.selectedTable = freeTable.getAttribute(settings.booking.tableIdAttribute);
-        availableTables.forEach(function (table) {
-          if (table !== freeTable) {
-            table.classList.remove(classNames.booking.tableBooked);
-          }
-        });
+  addSliderStyle() {
+    const thisBooking = this;
+    const value = 100/24;
+    const slider = document.querySelector('.rangeSlider');
+    const backgroundSlider = `background: linear-gradient(90deg,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][12])} 0%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][12])} ${value}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][12.5])} ${value}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][12.5])} ${value*2}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][13])} ${value*2}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][13])} ${value*3}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][13.5])} ${value*3}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][13.5])} ${value*4}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][14])} ${value*4}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][14])} ${value*5}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][14.5])} ${value*5}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][14.5])} ${value*6}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][15])} ${value*6}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][15])} ${value*7}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][15.5])} ${value*7}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][15.5])} ${value*8}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][16])} ${value*8}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][16])} ${value*9}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][16.5])} ${value*9}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][16.5])} ${value*10}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][17])} ${value*10}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][17])} ${value*11}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][17.5])} ${value*11}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][17.5])} ${value*12}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][18])} ${value*12}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][18])} ${value*13}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][18.5])} ${value*13}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][18.5])} ${value*14}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][19])} ${value*14}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][19])} ${value*15}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][19.5])} ${value*15}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][19.5])} ${value*16}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][20])} ${value*16}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][20])} ${value*17}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][20.5])} ${value*17}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][20.5])} ${value*18}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][21])} ${value*18}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][21])} ${value*19}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][21.5])} ${value*19}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][21.5])} ${value*20}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][22])} ${value*20}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][22])} ${value*21}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][22.5])} ${value*21}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][22.5])} ${value*22}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][23])} ${value*22}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][23])} ${value*23}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][23.5])} ${value*23}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][23.5])} ${value*24}%,
+    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][24])} ${value*24}%
+    );`;
+
+    slider.setAttribute('style', backgroundSlider);
+  }
+
+  rgbRecognizer(list) {
+    if (list !== undefined) {
+      if (list.length === 3) {
+        return 'rgb(255, 0, 0)';
+      } else if (list.length === 2) {
+        return 'rgb(255, 128, 0)';
+      } else {
+        return 'rgb(0, 255, 0)';
+      }
+    } else {
+      return 'rgb(0, 255, 0)';
+    }
+  }
+
+  initTables() {
+    const thisBooking = this;
+    for (let table of thisBooking.dom.tables) {
+      table.addEventListener('click', function () {
+        if (!table.classList.contains(classNames.booking.tableBooked)) {
+          table.classList.add(classNames.booking.tableBooked);
+          thisBooking.selectedTable = table.getAttribute(settings.booking.tableIdAttribute);
+        }
       });
     }
   }
@@ -174,6 +239,7 @@ class Booking {
     thisBooking.dom.wrapper.addEventListener('updated', function () {
       thisBooking.updateDOM();
     });
+    thisBooking.initTables();
     thisBooking.dom.submit.addEventListener('click', function (event) {
       event.preventDefault();
       thisBooking.bookTable();
