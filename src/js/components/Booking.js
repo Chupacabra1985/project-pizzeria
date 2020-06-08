@@ -188,11 +188,12 @@ class Booking {
     );`;
 
     slider.setAttribute('style', backgroundSlider);
+    console.log(thisBooking.booked[thisBooking.date][12]);
   }
 
   rgbRecognizer(list) {
     if (list !== undefined) {
-      if (list.length === 3) {
+      if (list.length >= 3) {
         return 'rgb(255, 0, 0)';
       } else if (list.length === 2) {
         return 'rgb(255, 128, 0)';
