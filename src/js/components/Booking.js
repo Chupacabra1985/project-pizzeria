@@ -135,60 +135,17 @@ class Booking {
     const thisBooking = this;
     const value = 100/24;
     const slider = document.querySelector('.rangeSlider');
-    const backgroundSlider = `background: linear-gradient(90deg,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][12])} 0%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][12])} ${value}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][12.5])} ${value}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][12.5])} ${value*2}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][13])} ${value*2}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][13])} ${value*3}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][13.5])} ${value*3}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][13.5])} ${value*4}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][14])} ${value*4}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][14])} ${value*5}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][14.5])} ${value*5}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][14.5])} ${value*6}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][15])} ${value*6}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][15])} ${value*7}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][15.5])} ${value*7}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][15.5])} ${value*8}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][16])} ${value*8}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][16])} ${value*9}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][16.5])} ${value*9}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][16.5])} ${value*10}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][17])} ${value*10}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][17])} ${value*11}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][17.5])} ${value*11}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][17.5])} ${value*12}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][18])} ${value*12}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][18])} ${value*13}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][18.5])} ${value*13}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][18.5])} ${value*14}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][19])} ${value*14}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][19])} ${value*15}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][19.5])} ${value*15}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][19.5])} ${value*16}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][20])} ${value*16}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][20])} ${value*17}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][20.5])} ${value*17}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][20.5])} ${value*18}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][21])} ${value*18}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][21])} ${value*19}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][21.5])} ${value*19}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][21.5])} ${value*20}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][22])} ${value*20}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][22])} ${value*21}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][22.5])} ${value*21}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][22.5])} ${value*22}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][23])} ${value*22}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][23])} ${value*23}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][23.5])} ${value*23}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][23.5])} ${value*24}%,
-    ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][24])} ${value*24}%
-    );`;
-
+    let rgbSettings = '';
+    let hours = 12;
+    for (let i = 0; i < 25; i++) {
+      rgbSettings += `, ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][hours])} ${value * [i]}%`;
+      if (i < 24) {
+        rgbSettings += `, ${thisBooking.rgbRecognizer(thisBooking.booked[thisBooking.date][hours])} ${value * [i + 1]}%`;
+      }
+      hours += 0.5;
+    }
+    const backgroundSlider = `background: linear-gradient(90deg ${rgbSettings});`;
     slider.setAttribute('style', backgroundSlider);
-    console.log(thisBooking.booked[thisBooking.date][12]);
   }
 
   rgbRecognizer(list) {
